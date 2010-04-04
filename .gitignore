@@ -1,5 +1,6 @@
 Capfile
 config/deploy.rb
+config/facebooker.yml
 log/*.log
 log/*.out
 log/*.pid
