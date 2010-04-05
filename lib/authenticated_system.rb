@@ -9,7 +9,7 @@ module AuthenticatedSystem
     # Accesses the current person from the session.  Set it to :false if login fails
     # so that future calls do not hit the database.
     def current_person
-      @current_person ||= (login_from_session || login_from_basic_auth || login_from_cookie || :false)
+      @current_person ||= (login_from_session || login_from_basic_auth || login_from_cookie || login_from_fb || :false)
     end
 
     # Store the given person id in the session.
@@ -108,6 +108,12 @@ module AuthenticatedSystem
     def login_from_basic_auth
       authenticate_with_http_basic do |username, password|
         self.current_person = Person.authenticate(username, password)
+      end
+    end
+
+    def login_from_fb
+      if facebook_session
+        self.current_person = Person.find_by_fb_user(facebook_session.user)
       end
     end
 

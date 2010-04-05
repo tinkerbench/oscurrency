@@ -218,6 +218,14 @@ class Person < ActiveRecord::Base
       find(:first, :conditions => ["admin = ?", true],
                    :order => :created_at)
     end
+
+    def find_by_fb_user(fb_user)
+      User.find_by_fb_user_id(fb_user.uid)
+    end
+
+    def populate_from_fb_connect(fb_user)
+      new_facebooker = Person.new(:email => fb_user.email, :name => fb_user.name)
+    end
   end
 
   # Params for use in urls.

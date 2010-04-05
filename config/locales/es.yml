@@ -266,6 +266,7 @@ es:
       header: "Peticion de membresía de grupo"
       respond: "Responder"
       no_membership_request: "Todavía no hay peticiones de membresía"
+      facebook: "Register via Facebook"
     show:
       header: "Perfil:"
       not_active: "Esta persona no esta activa"

@@ -1,3 +1,7 @@
+<% content_for(:fbconnect) do %>
+  <%= fb_connect_javascript_tag %>
+  <%= init_fb_connect "XFBML", :app_settings => "{permsToRequestOnConnect: 'email'}" %>
+<% end %>
 <%- column_div :type => :primary do -%>
   <%- if global_prefs.app_name.blank? -%>
   <h2><%= t('people.new.header') %></h2>
@@ -79,5 +83,9 @@
     <%= submit_tag 'Sign up', :class => "button" %>
   </div>
   <% end %>
+<%- end -%>
+<%- column_div :type => :secondary do -%>
+  <h2><%= t('people.new.facebook') %></h2>
+  <%= render :partial => 'shared/fbconnect_button' %>
 <%- end -%>
 <%= yui_headers('person_description') %>

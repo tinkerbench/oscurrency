@@ -6,7 +6,9 @@ class PeopleController < ApplicationController
   before_filter :correct_person_required, :only => [ :edit, :update ]
   before_filter :setup
   before_filter :setup_zips, :only => [:index, :show]
-  
+  before_filter :set_facebook_session, :only => :new
+  helper_method :facebook_session
+
   def index
     @zipcode = ""
     if global_prefs.zipcode_browsing? && params[:zipcode]
@@ -54,9 +56,14 @@ class PeopleController < ApplicationController
   end
   
   def new
-    @body = "register single-col"
+    #@body = "register single-col"
+    @body = "register"
     @body = @body + " yui-skin-sam"
-    @person = Person.new
+    if params[:id_provider] && facebook_session
+      @person = Person.populate_from_fb_connect(facebook_session.user)
+    else
+      @person = Person.new
+    end
     @all_categories = Category.find(:all, :order => "parent_id, name").sort_by { |a| a.long_name }
     @all_neighborhoods = Neighborhood.find(:all, :order => "parent_id, name").sort_by { |a| a.long_name }
     respond_to do |format|
@@ -67,6 +74,7 @@ class PeopleController < ApplicationController
   def create
     cookies.delete :auth_token
     @person = Person.new(params[:person])
+    @person.fb_user_id = facebook_session.user.uid.to_i unless facebook_session.nil?
     respond_to do |format|
       @person.email_verified = false if global_prefs.email_verifications?
       @person.identity_url = session[:verified_identity_url]
@@ -86,7 +94,8 @@ class PeopleController < ApplicationController
           format.html { redirect_back_or_default(home_url) }
         end
       else
-        @body = "register single-col"
+        @body = "register"
+        @body = @body + " yui-skin-sam"
         @all_categories = Category.find(:all, :order => "parent_id, name").sort_by { |a| a.long_name }
         @all_neighborhoods = Neighborhood.find(:all, :order => "parent_id, name").sort_by { |a| a.long_name }
         format.html { if @person.identity_url.blank? 
