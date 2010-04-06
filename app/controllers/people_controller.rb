@@ -6,7 +6,7 @@ class PeopleController < ApplicationController
   before_filter :correct_person_required, :only => [ :edit, :update ]
   before_filter :setup
   before_filter :setup_zips, :only => [:index, :show]
-  before_filter :set_facebook_session, :only => :new
+  before_filter :set_facebook_session, :only => [:new, :create]
   helper_method :facebook_session
 
   def index

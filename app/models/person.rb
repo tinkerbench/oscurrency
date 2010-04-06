@@ -424,7 +424,8 @@ class Person < ActiveRecord::Base
   # Authenticates a user by their email address and unencrypted password.
   # Returns the user or nil.
   def self.authenticate(email, password)
-    u = find_by_email_and_identity_url(email.downcase.strip, nil) # need to get the salt
+    # XXX temporary restriction: no password login for person with facebook association
+    u = find_by_email_and_identity_url_and_fb_user_id(email.downcase.strip, nil, nil) # need to get the salt
     u && u.authenticated?(password) ? u : nil
   end
 
@@ -612,8 +613,12 @@ class Person < ActiveRecord::Base
     ## Other private method(s)
 
     def password_required?
-      (crypted_password.blank? && identity_url.nil?) || !password.blank? ||
+      (crypted_password.blank? && identity_url.nil? && !facebook_user?) || !password.blank? ||
       !verify_password.nil?
+    end
+
+    def facebook_user?
+      !fb_user_id.nil? && fb_user_id > 0
     end
     
     class << self

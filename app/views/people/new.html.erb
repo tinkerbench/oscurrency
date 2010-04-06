@@ -62,7 +62,7 @@
         </label>
         <%= render :partial => "shared/select_neighborhoods", :locals => { :model_name => 'person' } %>
   </div>
-
+<% unless facebook_session %>
   <div class="form_row">
     <label for="password"><%= t('people.new.password') %></label>
     <%= f.password_field :password, :maxlength => Person::MAX_PASSWORD %>
@@ -74,7 +74,7 @@
                          :maxlength => Person::MAX_PASSWORD,
                          :value => "" %>
   </div>
-
+<% end %>
   <div class="form_row">
     <%= f.check_box :accept_agreement, :class => 'checkbox' %> <%= t('people.new.i_accept_the') %> <%= link_to t('people.new.member_agreement'), agreement_path, :target => '_blank', :class => 'small' %>
   </div>
@@ -86,6 +86,12 @@
 <%- end -%>
 <%- column_div :type => :secondary do -%>
   <h2><%= t('people.new.facebook') %></h2>
-  <%= render :partial => 'shared/fbconnect_button' %>
+  <% if params[:id_provider] && facebook_session %>
+    <p>
+      Facebook connection established. Submit form to sign up.
+    </p>
+  <% else %>
+    <%= render :partial => 'shared/fbconnect_button' %>
+  <% end %>
 <%- end -%>
 <%= yui_headers('person_description') %>
