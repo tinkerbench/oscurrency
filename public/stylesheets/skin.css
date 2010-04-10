@@ -514,3 +514,9 @@ ul.invite_contacts li {
 ul.invite_contacts li input.check{
     margin-right: 10px;
 }
+
+div.alt_login {
+  text-align: center;
+  font-size: 12px;
+  padding: 10px;
+}

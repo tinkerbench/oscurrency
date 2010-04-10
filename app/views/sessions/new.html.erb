@@ -1,6 +1,13 @@
+<% if params[:id_provider] %>
+  <% content_for(:fbconnect) do %>
+    <%= fb_connect_javascript_tag %>
+    <%= init_fb_connect "XFBML", :app_settings => "{permsToRequestOnConnect: 'email'}" %>
+  <% end %>
+<% end %>
 <%- column_div :type => :primary do -%>
   <h2><%= t('sessions.new.header') %></h2>
 
+<% unless params[:id_provider] %>
   <% form_tag session_path do -%>
 <span id="standard">
     <div class="form_row">
@@ -29,8 +36,7 @@
     <div class="form_row">
       <%= submit_tag t('sessions.new.button_signin'), :class => "button" %>
     </div>
-
-<div style="text-align: center; font-size: 12px; padding: 10px;">
+<div class="alt_login">
   <%= link_to t('sessions.new.or_signup'), signup_path %> <br />
   <%- if global_prefs.can_send_email? -%>
     <%= link_to t('sessions.new.i_forgot_my_password'), new_password_reminder_path %> ::
@@ -38,10 +44,22 @@
     <span id="noscript" style="display:none;">
       <span id="openid_link"><a href="#" onclick="show_openid(); return false;"><%= t('sessions.new.login_using_openid') %></a></span>
       <span id="standard_link"><a href="#" onclick="show_standard(); return false;"><%= t('sessions.new.back_to_regular_login') %></a></span>
+      :: <span id="facebook_link"><a href="#" onclick='window.location="/login?id_provider=facebook"; return false;'>Facebook</a></span>
     </span>
 
 </div>
   <% end -%>
+<% else %>
+  <div class="alt_login">
+    <%= fb_login_button('document.forms["sessionform"].submit();') %>
+  </div>
+  <% form_tag session_path, :id => 'sessionform' do -%>
+    <%= hidden_field_tag 'id_provider', 'facebook' %>
+  <% end %>
+  <div class="alt_login">
+    <a href="/login">Back to Login with Commons Identity</a>
+  </div>
+<% end %>
 <%- end -%>
 <script type='text/javascript'>
 show_openid = function() {
@@ -59,6 +77,8 @@ show_standard = function() {
     $('standard_link').hide();
     eraseCookie('use_openid');
     $('openid_url').value = '';
+}
+show_facebook = function() {
 }
 $('openid').hide();
 $('standard_link').hide();

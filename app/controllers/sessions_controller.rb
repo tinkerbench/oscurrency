@@ -1,5 +1,7 @@
 # This controller handles the login/logout function of the site.
 class SessionsController < ApplicationController
+  before_filter :set_facebook_session, :only => [:new, :create, :destroy]
+  helper_method :facebook_session
 
   skip_before_filter :require_activation, :only => [:new, :destroy]
 
@@ -10,6 +12,8 @@ class SessionsController < ApplicationController
   def create
     if using_open_id?
       open_id_authentication(params[:openid_url])
+    elsif using_facebook_id?
+      facebook_authentication
     else
       # Protect against bots hitting us.
       if params[:email].nil? or params[:password].nil?
@@ -134,4 +138,16 @@ class SessionsController < ApplicationController
       redirect_back_or_default(login_url)
     end
   end
+
+  private
+
+  def using_facebook_id?
+    !params[:id_provider].blank? && 'facebook' == params[:id_provider]
+  end
+
+  def facebook_authentication
+    login_from_fb || flash[:error] = t('error_facebook_authentication')
+    redirect_to(home_url)
+  end
+
 end

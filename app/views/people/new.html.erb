@@ -88,7 +88,7 @@
   <h2><%= t('people.new.facebook') %></h2>
   <% if params[:id_provider] && facebook_session %>
     <p>
-      Facebook connection established. Submit form to sign up.
+      <%= t('people.new.facebook_connection_established') %>
     </p>
   <% else %>
     <%= render :partial => 'shared/fbconnect_button' %>

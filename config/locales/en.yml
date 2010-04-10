@@ -263,6 +263,7 @@ en:
       i_accept_the: "I accept the"
       member_agreement: "member agreement"
       facebook: "Register via Facebook"
+      facebook_connection_established: "Facebook connection established. Submit form to sign up."
     request_memberships:
       header: "Membership request for your groups"
       respond: "Respond"
@@ -469,7 +470,7 @@ en:
   error_openid_problems: "The following problems exist with your OpenID profile:"
   error_deactivated_account: "Your account has been deactivated"
   error_your_account_is_deactivated: "Your account is currently deactivated. In order to log in, you must be approved by the administrator."
-  error_membership_is_approved_after: "Membership is approved after an orientation has been attended. Read more about"
+  error_membership_is_approved_after: "Membership is approved after an orientation has been attended. Read more about "
   error_membership_here: "membership here"
   error_you_can_also: "You can also"
   error_contact: "contact"
@@ -479,3 +480,4 @@ en:
   error_could_not_find_transaction: "could not find transaction"
   error_could_not_find_payee: "could not find payee"
   error_with_transfer: "Error with transfer."
+  error_facebook_authentication: "Login with facebook connect failed! Maybe you haven't registered."

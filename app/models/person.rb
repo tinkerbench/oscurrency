@@ -220,7 +220,7 @@ class Person < ActiveRecord::Base
     end
 
     def find_by_fb_user(fb_user)
-      User.find_by_fb_user_id(fb_user.uid)
+      Person.find_by_fb_user_id(fb_user.uid)
     end
 
     def populate_from_fb_connect(fb_user)
