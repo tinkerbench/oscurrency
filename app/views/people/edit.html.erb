@@ -151,8 +151,8 @@
 <%- end -%>
 
 <%- column_div :type => :secondary do -%>
-  <h2><%= t('people.edit.change_your_password') %></h2>
-
+  <h2><%= t('people.edit.login_settings') %></h2>
+  <h3><%= t('people.edit.change_your_password') %></h3>
   <% form_for @person, :html => { :id => "change_password" } do |f| %>
 
     <div class="form_row">
@@ -181,6 +181,10 @@
     </div>
     <input type="hidden" name="type" value="password_edit" />
   <% end %>
+  <h3>Facebook Connect</h3>
+  <div>
+    <div style="float:left;"><%= image_tag "fbicon.png", :class => "icon", :alt => "facebook connect" %></div><div class="small" style="float:left;"><%= link_to "Link Facebook account", facebook_connect_edit_person_path(current_person) %></div>
+  </div>
 <%- end -%>
 
 <%= yui_headers('person_description') %>

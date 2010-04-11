@@ -3,10 +3,10 @@ class PeopleController < ApplicationController
   skip_before_filter :require_activation, :only => :verify_email
   skip_before_filter :admin_warning, :only => [ :show, :update ]
   before_filter :login_or_oauth_required, :only => [ :index, :show, :edit, :update ]
-  before_filter :correct_person_required, :only => [ :edit, :update ]
+  before_filter :correct_person_required, :only => [ :edit, :update, :facebook_connect_update ]
   before_filter :setup
   before_filter :setup_zips, :only => [:index, :show]
-  before_filter :set_facebook_session, :only => [:new, :create]
+  before_filter :set_facebook_session, :only => [:new, :create, :facebook_connect_edit, :facebook_connect_update]
   helper_method :facebook_session
 
   def index
@@ -74,7 +74,10 @@ class PeopleController < ApplicationController
   def create
     cookies.delete :auth_token
     @person = Person.new(params[:person])
-    @person.fb_user_id = facebook_session.user.uid.to_i unless facebook_session.nil?
+    unless facebook_session.nil?
+      unlink_existing_facebook_person(facebook_session.user)
+      @person.fb_user_id = facebook_session.user.uid.to_i
+    end
     respond_to do |format|
       @person.email_verified = false if global_prefs.email_verifications?
       @person.identity_url = session[:verified_identity_url]
@@ -186,7 +189,30 @@ class PeopleController < ApplicationController
       end
     end
   end
-  
+ 
+  def unlink_existing_facebook_person(user)
+    existing_fb_person = Person.find_by_fb_user_id(user.uid)
+    unless existing_fb_person.nil?
+      existing_fb_person.fb_user_id = nil
+      existing_fb_person.save
+    end
+  end
+
+  def facebook_connect_edit
+  end
+
+  def facebook_connect_update
+    @person = Person.find(params[:id])
+    unless facebook_session.nil?
+      unlink_existing_facebook_person(facebook_session.user)
+      @person.fb_user_id = facebook_session.user.uid.to_i
+    
+      @person.save
+      flash[:success] = t('success_facebook_connected') 
+      redirect_to @person and return
+    end
+  end
+
   def common_contacts
     @person = Person.find(params[:id])
     @common_contacts = @person.common_contacts_with(current_person,

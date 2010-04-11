@@ -230,11 +230,15 @@ en:
       add_a_photo: "Add a photo"
       addresses: "Addresses"
       add_address: "Add address"
+      login_settings: "Login settings"
       change_your_password: "Change your password"
       current_password: "Current Password"
       new_password: "New Password"
       confirm_password: "Confirm Password"
       change_password: "Change Password"
+    facebook_connect_edit:
+      header: "Facebook Connect" 
+      connect_your_account: "Connect your account with your Facebook account using Facebook connect."
     groups:
       no_groups: "No groups (yet)"
       new_group: "New group"
@@ -439,6 +443,7 @@ en:
   success_you_have_been_logged_out: "You have been logged out."
   success_topic_created: "Topic was successfully created."
   success_topic_destroyed: "Topic was successfully destroyed."
+  success_facebook_connected: "Facebook connected!"
 
   error_geocoding_failed: "Geocoding failed"
   error_at_least_one_address: "You must have at least one address"

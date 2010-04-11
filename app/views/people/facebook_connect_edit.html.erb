@@ -1,0 +1,21 @@
+<% content_for(:fbconnect) do %>
+  <%= fb_connect_javascript_tag %>
+  <%= init_fb_connect "XFBML", :app_settings => "{permsToRequestOnConnect: 'email'}" %>
+<% end %>
+
+<%- column_div :type => :primary do -%>
+  <h2><%= t('people.facebook_connect_edit.header') %></h2>
+  <div class="notice">
+    <%= t('people.facebook_connect_edit.connect_your_account') %>
+  </div>
+  <div class="alt_login">
+    <%= fb_login_button('document.forms["facebookedit"].submit();') %>
+  </div>
+  <% form_tag facebook_connect_update_person_path(current_person), :id => 'facebookedit' do -%>
+    <%= hidden_field_tag 'id_provider', 'facebook' %>
+  <% end %>
+<%- end -%>
+
+<%- column_div :type => :secondary do -%>
+  <%= render :partial => 'shared/minifeed' %>
+<%- end -%>
