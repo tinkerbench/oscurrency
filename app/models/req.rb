@@ -24,9 +24,9 @@ class Req < ActiveRecord::Base
     description
   end
   
-  named_scope :active, :conditions => {:active => true}
-  named_scope :with_group_id, lambda {|group_id| {:conditions => ['group_id = ?', group_id]}}
-  named_scope :search, lambda { |text| {:conditions => ["lower(name) LIKE ? OR lower(description) LIKE ?","%#{text}%".downcase,"%#{text}%".downcase]} }
+  scope :active, :conditions => {:active => true}
+  scope :with_group_id, lambda {|group_id| {:conditions => ['group_id = ?', group_id]}}
+  scope :search, lambda { |text| {:conditions => ["lower(name) LIKE ? OR lower(description) LIKE ?","%#{text}%".downcase,"%#{text}%".downcase]} }
 
   has_and_belongs_to_many :categories
   belongs_to :person
@@ -58,7 +58,8 @@ class Req < ActiveRecord::Base
 
     def search(category,group,page,posts_per_page,search=nil)
       unless category
-        group.reqs.active.search(search).paginate(:page => page, :per_page => posts_per_page)
+        #group.reqs.active.search(search).paginate(:page => page, :per_page => posts_per_page)
+        group.reqs.active.paginate(:page => page, :per_page => posts_per_page)
       else
         category.reqs.active.with_group_id(group.id).paginate(:page => page, :per_page => posts_per_page)
       end
@@ -69,8 +70,8 @@ class Req < ActiveRecord::Base
     group.unit
   end
 
-  def formatted_categories
-    categories.collect {|cat| cat.long_name + "<br>"}.to_s.chop.chop.chop.chop
+  def long_categories
+    categories.map {|cat| cat.long_name }
   end
 
   def has_accepted_bid?

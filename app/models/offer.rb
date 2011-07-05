@@ -30,7 +30,8 @@ class Offer < ActiveRecord::Base
 
     def search(category,group,page,posts_per_page,search=nil)
       unless category
-        group.offers.search(search).paginate(:page => page, :per_page => posts_per_page)
+        #group.offers.search(search).paginate(:page => page, :per_page => posts_per_page)
+        group.offers.paginate(:page => page, :per_page => posts_per_page)
       else
         category.offers.with_group_id(group.id).paginate(:page => page, :per_page => posts_per_page)
       end
@@ -45,8 +46,8 @@ class Offer < ActiveRecord::Base
     group.unit
   end
 
-  def formatted_categories
-    categories.collect {|cat| cat.long_name + "<br>"}.to_s.chop.chop.chop.chop
+  def long_categories
+    categories.map {|cat| cat.long_name }
   end
   
   private

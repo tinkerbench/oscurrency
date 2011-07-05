@@ -80,7 +80,7 @@ module ActivitiesHelper
     when "BlogPost"
       post = activity.item
       blog = post.blog
-      %(#{person.name} made a
+      raw %(#{h person.name} made a
         #{post_link("new blog post", blog, post)}.)
     when "Comment"
       parent = activity.item.commentable
@@ -89,55 +89,48 @@ module ActivitiesHelper
       when "BlogPost"
         post = activity.item.commentable
         blog = post.blog
-        %(#{person.name} made a comment to
-           #{someones(blog.person, person)}
-           blog post #{post_link(blog, post)}.)
-        %(#{person.name} made a comment on
+        raw %(#{h person.name} made a comment on
           #{someones(blog.person, person)} 
           #{post_link("blog post", post.blog, post)}.)
       when "Person"
-        %(#{activity.item.commenter.name} commented on 
+        raw %(#{h activity.item.commenter.name} commented on 
           #{wall(activity)}.)
       when "Event"
         event = activity.item.commentable
-        %(#{activity.item.commenter.name} commented on 
+        raw %(#{h activity.item.commenter.name} commented on 
           #{someones(event.person, activity.item.commenter)} #{event_link("event", event)}.)
       end
     when "Connection"
-      %(#{person.name} and #{activity.item.contact.name}
+      raw %(#{h person.name} and #{activity.item.contact.name}
         have connected.)
     when "ForumPost"
       topic = activity.item.topic
-      %(#{person.name} made a #{topic_link("forum post", topic)}.)
+      raw %(#{h person.name} made a #{topic_link("forum post", topic)}.)
     when "Topic"
-      %(#{person.name} created a 
+      raw %(#{h person.name} created a 
         #{topic_link("new discussion topic", activity.item)}.)
     when "Photo"
-      %(#{person.name}'s profile picture has changed.)
+      %(#{h person.name}'s profile picture has changed.)
     when "Person"
-      %(#{person.name}'s description has changed.)
+      %(#{h person.name}'s description has changed.)
     when "Group"
-      %(#{person.name} created the group '#{group_link(Group.find(activity.item))}')
+      raw %(#{h person.name} created the group '#{group_link(Group.find(activity.item))}')
     when "Membership"
-      %(#{person.name} joined the group '#{group_link(Group.find(activity.item.group))}')
+      raw %(#{h person.name} joined the group '#{group_link(Group.find(activity.item.group))}')
     when "Event"
-      %(#{person.name}s has created a new #{event_link("event", activity.item)}.)
+      raw %(#{h person.name}s has created a new #{event_link("event", activity.item)}.)
     when "EventAttendee"
       event = activity.item.event
-      %(#{person.name} is attending #{someones(event.person, person)} #{event_link("event", event)}.)
+      raw %(#{h person.name} is attending #{someones(event.person, person)} #{event_link("event", event)}.)
     when "Req"
       req = activity.item
-      %(#{person.name} has created a new request: #{req_link(req.name, req)}.)
+      raw %(#{h person.name} has created a new request: #{req_link(req.name, req)}.)
     when "Offer"
       offer = activity.item
-      %(#{person.name} has created a new offer: #{offer_link(offer.name, offer)}.)
+      raw %(#{h person.name} has created a new offer: #{offer_link(offer.name, offer)}.)
     when "Exchange"
       exchange = activity.item
-      if exchange.group.nil?
-        %(#{person.name} earned #{exchange.amount} hours for #{metadata_link(exchange.metadata)}.)
-      else
-        %(#{person.name} earned #{exchange.amount} #{exchange.group.unit} for #{metadata_link(exchange.metadata)} in #{group_link(exchange.group)}.)
-      end
+      raw %(#{person.name} earned #{exchange.amount} #{exchange.group.unit} for #{metadata_link(exchange.metadata)} in #{group_link(exchange.group)}.)
     else
       raise "Invalid activity type #{activity_type(activity).inspect}"
     end
