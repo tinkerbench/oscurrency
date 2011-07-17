@@ -40,6 +40,8 @@ class Req < ActiveRecord::Base
   attr_readonly :group_id
   validates_presence_of :name, :due_date
   validates_presence_of :group_id
+  validate :group_has_a_currency_and_includes_requestor_as_a_member
+  validate :maximum_categories
 
   after_create :notify_workers, :if => :notifications
   after_create :log_activity
@@ -106,11 +108,13 @@ class Req < ActiveRecord::Base
 
   private
 
-  def validate
+  def maximum_categories
     if self.categories.length > 5
       errors.add_to_base('Only 5 categories are allowed per request')
     end
+  end
 
+  def group_has_a_currency_and_includes_requestor_as_a_member
     unless self.group.nil?
       unless self.group.adhoc_currency?
         errors.add(:group_id, "does not have its own currency")
