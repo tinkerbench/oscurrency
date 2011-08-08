@@ -30,7 +30,7 @@ gem "ruby-openid", :require => "openid"
 gem "oauth-plugin", :path => "#{File.expand_path(__FILE__)}/../vendor/gems/oauth-plugin-0.4.0.pre4"
 gem "cancan"
 gem "dalli"
-gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
+gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git', :branch => 'rails-3.0'
 
 group :development, :test do
   gem "silent-postgres"
