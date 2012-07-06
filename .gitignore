@@ -32,3 +32,5 @@ sphinx/*
 config/ultrasphinx/*.conf
 .bundle
 .sass-cache/
+.rvmrc
+
