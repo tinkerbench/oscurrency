@@ -3,7 +3,7 @@ development:
   database: oscurrency_development
   hostname: localhost
   username: postgres
-  password: spindreck
+  password: 
   
 test:
   adapter: postgresql
