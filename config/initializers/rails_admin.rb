@@ -3,7 +3,7 @@ RailsAdmin.config do |config|
 
   config.current_user_method { current_person } #auto-generated
   config.authorize_with :cancan
-  config.attr_accessible_role {[:admin,:default]}
+  config.attr_accessible_role {:admin}
   config.authenticate_with {
     unless current_person
       session[:return_to] = request.url
@@ -161,6 +161,8 @@ RailsAdmin.config do |config|
     edit do
       field :name
       field :email
+      field :password
+      field :password_confirmation
       field :deactivated
       field :email_verified
       field :phone
