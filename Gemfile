@@ -2,7 +2,7 @@
 
 source :rubygems
 
-gem 'rails', '3.1.3'
+gem 'rails', '3.1.8'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -11,6 +11,7 @@ gem 'pg'
 gem "unicorn"
 gem "newrelic_rpm"
 gem "girl_friday"
+gem "exception_notification"
 
 group :assets do
   gem "sass-rails", '3.1.5'
