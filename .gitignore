@@ -33,3 +33,5 @@ config/ultrasphinx/*.conf
 .sass-cache/
 .rvmrc
 .env
+db/bootstrap/accounts.csv
+lib/tasks/bootstrap.rake
