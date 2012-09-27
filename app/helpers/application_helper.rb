@@ -18,6 +18,17 @@ module ApplicationHelper
   end
   
   ## Menu helpers
+
+  def display_help?
+    !(
+      global_prefs.about.blank? &&
+      global_prefs.practice.blank? &&
+      global_prefs.steps.blank? &&
+      global_prefs.contact.blank? &&
+      global_prefs.agreement.blank? &&
+      global_prefs.questions.blank?
+    )
+  end
   
   def menu
     home     = menu_element("Home",   home_path)
@@ -172,7 +183,7 @@ module ApplicationHelper
   def exchange_link(person, group = nil, options = {})
     img = image_tag("icons/switch.gif")
     path = new_person_exchange_path(person, ({:group => group.id} unless group.nil?))
-    action = "Give credit"
+    action = t('exchanges.record_transaction')
     str = link_to(img,path,options)
     str << " "
     str << link_to_unless_current(action, path, options)
