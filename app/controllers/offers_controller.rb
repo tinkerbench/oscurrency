@@ -29,13 +29,12 @@ class OffersController < ApplicationController
     @selected_neighborhoods = current_person.neighborhoods
     respond_to do |format|
       format.js
+      format.html { redirect_to group_path(@group, :anchor => 'offers/new') }
     end
   end
 
   def create
     @offer.group = @group
-    ##TODO: move this to the model, a before_create method?
-    @offer.available_count = @offer.total_available
     @offer.person = current_person
     @all_categories = Category.by_long_name
     @all_neighborhoods = Neighborhood.by_long_name
