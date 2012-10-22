@@ -18,3 +18,4 @@ production:
   hostname: localhost
   username: root
   password: 
+  pool: 15
