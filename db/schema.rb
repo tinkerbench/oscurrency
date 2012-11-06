@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121005163824) do
+ActiveRecord::Schema.define(:version => 20121103012147) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -428,7 +428,6 @@ ActiveRecord::Schema.define(:version => 20121005163824) do
     t.string   "first_letter"
     t.string   "zipcode"
     t.boolean  "phoneprivacy",             :default => false
-    t.boolean  "forum_notifications",      :default => false
     t.string   "language"
     t.string   "openid_identifier"
     t.string   "perishable_token",         :default => "",    :null => false
@@ -445,6 +444,7 @@ ActiveRecord::Schema.define(:version => 20121005163824) do
     t.integer  "activity_status_id"
     t.integer  "plan_type_id"
     t.integer  "support_contact_id"
+    t.boolean  "mailchimp_subscribed",     :default => false
   end
 
   add_index "people", ["admin"], :name => "index_people_on_admin"
@@ -510,18 +510,18 @@ ActiveRecord::Schema.define(:version => 20121005163824) do
     t.text     "steps"
     t.text     "questions"
     t.text     "contact"
-    t.boolean  "zipcode_browsing",        :default => false
     t.string   "blog_feed_url"
     t.string   "googlemap_api_key"
     t.text     "agreement"
     t.string   "new_member_notification"
     t.text     "registration_intro"
-    t.string   "disqus_shortname"
     t.integer  "default_group_id"
     t.integer  "topic_refresh_seconds",   :default => 30,    :null => false
     t.boolean  "groups",                  :default => true,  :null => false
     t.string   "alt_signup_link"
     t.boolean  "protected_categories",    :default => false
+    t.string   "mailchimp_list_id"
+    t.boolean  "mailchimp_send_welcome",  :default => true
   end
 
   create_table "rails_admin_histories", :force => true do |t|

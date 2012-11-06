@@ -40,7 +40,7 @@
         <%- unless current_person?(@person) -%>
           <%- if logged_in? -%>
             <li><%= exchange_link @person %></li>
-            <li><%= email_link @person %></li>
+            <li><%= email_link @person, :class => 'noajax' %></li>
             <%= render :partial => 'account', :collection => @person.accounts %>
           <%- end -%>
           <%- if current_person.admin? -%>
@@ -92,13 +92,6 @@
 <%- end -%>
 
 <%= column_div :type => :secondary do -%>
-  <%= render :partial => 'groups', 
-             :locals => {:groups => @person.own_groups, :title => "Admin Groups", :link => "admin"} %>
-  <%= render :partial => 'groups', 
-             :locals => {:groups => @groups, :title => "Groups", :link => "groups"} %>
   <%= render :partial => 'searches/box' %>
-  <%- if global_prefs.zipcode_browsing? -%>
-    <%= render :partial => 'zip', :collection => @zips %>
-  <%- end -%>
 <%- end -%>
 

@@ -11,7 +11,7 @@ gem 'pg'
 gem "unicorn"
 gem "newrelic_rpm"
 gem "girl_friday"
-gem "exception_notification"
+gem "exception_notification", :git => "https://github.com/smartinez87/exception_notification.git"
 
 group :assets do
   gem "sass-rails", '3.1.5'
@@ -52,6 +52,7 @@ gem 'rails_admin'
 gem "ar_after_transaction"
 gem 'valid_email', :require => 'valid_email/email_validator'
 gem "calendar_helper"
+gem "gibbon", :git => "git://github.com/amro/gibbon.git"
 
 group :development, :test do
   gem "heroku"

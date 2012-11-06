@@ -1,10 +1,14 @@
 unless Rails.env == 'test'
 require Rails.root.join('lib', 'rails_admin_send_broadcast_email.rb')
+require Rails.root.join('lib', 'rails_admin_add_to_mailchimp_list.rb')
 RailsAdmin.config do |config|
 module RailsAdmin
   module Config
     module Actions
       class SendBroadcastEmail < RailsAdmin::Config::Actions::Base
+        RailsAdmin::Config::Actions.register(self)
+      end
+      class AddToMailchimpList < RailsAdmin::Config::Actions::Base
         RailsAdmin::Config::Actions.register(self)
       end
     end
@@ -17,7 +21,7 @@ end
   config.authenticate_with {
     unless current_person
       session[:return_to] = request.url
-      redirect_to login_url, :alert => "You must first log in or sign up before accessing this page."
+      redirect_to '/login', :notice => "You must first log in or sign up before accessing this page."
     end
   }
 
@@ -26,6 +30,7 @@ end
     index
     new
     send_broadcast_email
+    add_to_mailchimp_list
     show
     edit
     delete
@@ -151,13 +156,15 @@ end
       field :blog_feed_url
       field :new_member_notification
       field :googlemap_api_key
-      field :disqus_shortname
       field :gmail
       field :email_notifications
       field :email_verifications
       field :protected_categories
-      field :zipcode_browsing
       field :whitelist
+      field :mailchimp_list_id do
+        label "Mailchimp List ID"
+      end
+      field :mailchimp_send_welcome
       field :registration_intro
       field :agreement
       field :about
@@ -305,6 +312,7 @@ end
       field :phone
       field :admin
       field :org
+      field :mailchimp_subscribed
       field :openid_identifier
       sort_by :last_logged_in_at
     end
