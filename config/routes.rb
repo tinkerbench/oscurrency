@@ -90,7 +90,8 @@ Oscurrency::Application.routes.draw do
       resources :posts
     end
   end
-  match '/signup' => 'people#new', :as => :signup
+  # Disable signup route for VBSR
+  # match '/signup' => 'people#new', :as => :signup
   match '/login' => 'person_sessions#new', :as => :login
   match '/logout' => 'person_sessions#destroy', :as => :logout
   match '/refreshblog' => 'feed_posts#refresh_blog', :as => :refreshblog
