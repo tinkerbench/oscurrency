@@ -5,6 +5,7 @@ class Person < ActiveRecord::Base
   extend PreferencesHelper
 
   acts_as_authentic do |c|
+    c.crypto_provider = Authlogic::CryptoProviders.const_get(ENV['CRYPTOPROVIDER'].to_sym) unless ENV['CRYPTOPROVIDER'].blank?
     c.openid_required_fields = ['http://axschema.org/contact/email',
       'http://axschema.org/namePerson/first',
       'http://axschema.org/namePerson/last',
@@ -361,19 +362,19 @@ class Person < ActiveRecord::Base
   end
 
   def main_photo
-    photo.nil? ? "default.png" : photo.pic
+    photo.nil? ? "default.png" : photo.picture_url
   end
 
   def thumbnail
-    photo.nil? ? "default_thumbnail.png" : photo.pic(:thumbnail)
+    photo.nil? ? "default_thumbnail.png" : photo.picture_url(:thumbnail)
   end
 
   def icon
-    photo.nil? ? "default_icon.png" : photo.pic(:icon)
+    photo.nil? ? "default_icon.png" : photo.picture_url(:icon)
   end
 
   def bounded_icon
-    photo.nil? ? "default_icon.png" : photo.pic(:icon)
+    photo.nil? ? "default_icon.png" : photo.picture_url(:icon)
   end
 
   # Return the photos ordered by primary first, then by created_at.
